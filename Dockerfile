@@ -34,14 +34,18 @@ RUN set -eux ; \
     --location \
     --retry 3 \
     --output /usr/local/bin/install-php-extensions \
-    --url https://github.com/mlocati/docker-php-extension-installer/releases/download/1.2.58/install-php-extensions \
+    --url https://github.com/mlocati/docker-php-extension-installer/releases/download/1.5.51/install-php-extensions \
   ; \
-  echo 182011b3dca5544a70fdeb587af44ed1760aa9a2ed37d787d0f280a99f92b008e638c37762360cd85583830a097665547849cb2293c4a0ee32c2a36ef7a349e2 /usr/local/bin/install-php-extensions | sha512sum --strict --check ; \
+  echo 7660aaf029477ba1e7b924047c222212d2efb68dab5c15dfe5a4d2db0665553d2c8f3168232776deecc9ea0fabedb946ad22136e1575a6b9189b55e3a7aa6d31 /usr/local/bin/install-php-extensions | sha512sum --strict --check ; \
   chmod +x /usr/local/bin/install-php-extensions ; \
   # install necessary/useful extensions not included in base image
   install-php-extensions \
     bz2 \
     zip \
+    intl \
+    xsl \
+    gd \
+    ldap \
   ; \
   # install public keys for snapshot and tag validation, see https://composer.github.io/pubkeys.html
   curl \
@@ -94,7 +98,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["composer"]
 
-COPY --from=binary-with-runtime /usr/bin/composer /composer
-
-# This is defined as last target to be backward compatible with build without explicit --target option
 FROM binary-with-runtime AS default
