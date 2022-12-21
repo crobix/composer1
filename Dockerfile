@@ -14,6 +14,7 @@ RUN set -eux ; \
     zip \
     nodejs=12.22.6-r0 \
     yarn \
+    imagemagick \
     $([ "$(apk --print-arch)" != "x86" ] && echo mercurial) \
     $([ "$(apk --print-arch)" != "armhf" ] && echo p7zip)
 
